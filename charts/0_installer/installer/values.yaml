@@ -1,14 +1,7 @@
 core:
-  aiManager:
-    aiManagerInstall: false
-    aiManagerPullToken: <PULL_TOKEN>
-  eventManager:
-    eventManagerInstall: false
-    eventManagerPullToken: <PULL_TOKEN>
-addons:
-  LDAPInstall: false
-  RobotShopInstall: false  
-  CP4WAIOPSDemoUIInstall: false
+  ibm-aiops:
+    install: false
+    pullToken: <PULL_TOKEN>
 solutions:
   TurbonomicInstall: false
   HumioInstall: false
