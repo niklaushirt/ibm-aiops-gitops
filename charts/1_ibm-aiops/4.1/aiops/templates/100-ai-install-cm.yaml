@@ -1,4 +1,4 @@
-{{- if .Values.ibm-aiops.install }}
+{{- if .Values.ibmaiops.install }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -26,19 +26,9 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
       # --------------------------------------------------------------------------------------------------------------------------------------
-      entitled_registry: docker-na-public.artifactory.swg-devops.com
-      entitled_registry_user: nikh@ch.ibm.com
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230504.1302-8a7bf836e
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230505.0302-2c0f450f9
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230509.0902-6eef3eab8
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230511.0503-fd49d3786
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230522.0502-f1d268e15
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230524.1401-e682bad9f
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230530.0402-9d41ee552
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230531.1202-4278b0a61
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230607.0807-6295ef8e0
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230612.0605-19e30b344
-      catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230614.1603-8b622a1d9
+      entitled_registry: {{.Values.ibmaiops.entitled_registry}}
+      entitled_registry_user: {{.Values.ibmaiops.entitled_registry_user}}
+      catalog_image: {{.Values.ibmaiops.catalog_image}}
       # entitled_registry: cp.icr.io
       # entitled_registry_user: cp
       # catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
@@ -47,11 +37,11 @@ data:
       # Notifications and Cards
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Create Welcome Cards in ibm-aiops
-      create_cards: true
+      create_cards: {{.Values.ibmaiops.create_cards}}
       # Create App Menu Items in OCP
-      create_ocp_items: true
+      create_ocp_items: {{.Values.ibmaiops.create_ocp_items}}
       # Create Notifications in OCP
-      create_ocp_notifications: true
+      create_ocp_notifications: {{.Values.ibmaiops.create_ocp_notifications}}
       position_ocp_notifications: BannerBottom
       position_final_ocp_notification: BannerTop
 
@@ -60,10 +50,10 @@ data:
       # Passwords and Licenses
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Use this Password for all Instances
-      global_password: P4ssw0rd!
+      global_password: {{.Values.ibmaiops.global_password}}
       # Set this value to True to accept all licenses
-      accept_all_licenses: False
-      license_token: _tI3RmLx4m9EH-abvdc53DYEkbYY
+      accept_all_licenses: {{.Values.ibmaiops.accept_all_licenses}}
+      license_token: {{.Values.ibmaiops.license_token}}
 
 
     # *************************************************************************************************************************************************
@@ -107,7 +97,7 @@ data:
 
     - project: ibm-aiops
       instances:
-      - name: ibm-aiops
+      - name: {{.Values.ibmaiops.namespace}}
         kind: IBMAIOps
         install: true
 
@@ -115,20 +105,20 @@ data:
         # Install Sizing
         # current_ibm-aiops_feature
         # ibm-aiops Size of the install (small: PoC/Demo, tall: Production)
-        aiops_size: small
+        aiops_size: {{.Values.ibmaiops.install_repo}}
         # Custom Sizing File (aiops_size must be set to "custom")
         #custom_size_file: none
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Install Details
         # Name of the ibm-aiops instance
-        aiops_name: ibm-cp-watson-aiops
+        aiops_name: {{.Values.ibmaiops.aiops_name}}
         # Version of the catalog subscription
-        subscription_channel: 4.1-dev
+        subscription_channel: {{.Values.ibmaiops.subscription_channel}}
         # Freeze the version of the Catalog image by patching CatalogSource
-        freeze_catalog: true
+        freeze_catalog: {{.Values.ibmaiops.freeze_catalog}}
         # Install Feature Flags
-        install_feature_flags: true
+        install_feature_flags: {{.Values.ibmaiops.install_feature_flags}}
 
 
         # --------------------------------------------------------------------------------------------------------------------------------------
@@ -147,215 +137,7 @@ data:
 
 
 
-    #--------------------------------------------------------------------------------------------------------------------------------------
-    # CloudPak for AIOps Demo Content Install
-    #--------------------------------------------------------------------------------------------------------------------------------------
-      - name: ibm-aiops-demo-content
-        kind: IBMAIOpsDemoContent
-        install: true
-
-
-        # ---------------------------------------------------------------------
-        # TRAINING
-        # Train the Models based on pre-canned content
-
-        training_create_training_temporal: true
-
-        training_load_data_logs: true
-        training_create_training_logs: true
-        training_run_training_logs: true
-
-        training_load_data_snow: true
-        training_create_training_snow: true
-        training_run_training_snow: true
-
-        training_load_data_metrics: true
-        training_create_training_metrics: true
-        training_run_training_metrics: true
-
-        # Create feature flag Training (Seasonality and XinY)
-        training_create_training_experimental: true
-
-        training_data_url: https://github.com/niklaushirt/
-        training_data_repo: ibm-aiops-trainingdata
-
-
-        # ---------------------------------------------------------------------
-        # TOPOLOGY
-        # Install DemoApps Application
-        install_demoapps: true
-        # RobotShop interface color (classic/white)
-        robotshop_color: white
-        # Install DemoApps K8s Observer
-        install_demoapps_observer: true
-        # Create Topology
-        create_topology_templates: true
-        create_topology_apps: true
-        # Create Custom overlay topology
-        install_custom_topology: true
-
-
-        # ---------------------------------------------------------------------
-        # RUNBOOKS
-        # Install AWX and create Runbooks
-        install_awx: true
-        load_awx_playbooks: true
-        integrate_awx: true
-        load_runbooks: true
-        create_runbook_policy: true
-
-
-        # ---------------------------------------------------------------------
-        # Demo UI
-        install_demo_ui: true
-        demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
-        # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-        demoui_slack_user: ibm-aiopsdemo@gmail.com
-        demoui_slack_pwd: P4ssw0rd!
-        demoui_admin_mode: "true"
-        demoui_simulation_mode: "true"
-
-        demoui_user: demo
-        # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
-        #demoui_pwd: P4ssw0rd!
-
-
-        # ---------------------------------------------------------------------
-        # LDAP
-        install_ldap: true
-        # ldap domain
-        ldap_domain: ibm.com
-        # ldap base
-        ldap_base: dc=ibm,dc=com
-        # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
-        #ldap_admin_password: P4ssw0rd!
-        # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
-        #ldap_user_password: P4ssw0rd!
-        # ldap namespace
-        ldap_namespace: openldap
-        # ldap namespace
-        ldap_register: true
-
-        # ---------------------------------------------------------------------
-        # MISC PARAMETERS (you should not modify those)
-        # Create external routes (needed to create demo content)
-        create_external_routes: true
-
-        # Create a valid ingress certificate (needed for Slack integration)
-        create_valid_ingress_certificate: true
-
-        # Create Policy for Story Creation
-        create_incident_policy: true
-
-        # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-        create_log_connection: true
-
-        # Create Service Account
-        create_account: true
-
-        # Install Webhook Probe
-        install_webhook_probe: false
-        subscription_channel: v3.7
-
-
-
-
-    - project: ibm-aiops-addons
-      instances:
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # CP4WAIOPS ELK
-      # --------------------------------------------------------------------------------------------------------------------------------------
-
-      - name: ibm-aiops-elk
-        kind: ELK
-        install: false
-
-
-
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # IBM AIOPS TURBONOMIC
-      # --------------------------------------------------------------------------------------------------------------------------------------
-
-      - name: ibm-aiops-turbonomic
-        kind: Turbonomic
-        install: true
-        turbo_version: 8.9.2
-
-        # --------------------------------------------------------------------------------------------------------------------------------------
-        # Storage Classes Override for this Instance (see comment below)
-        # --------------------------------------------------------------------------------------------------------------------------------------
-        #storage_class_file: automatic
-        #storage_class_block: automatic
-
-      - name: ibm-aiops-turbonomic-demo-content
-        kind: TurbonomicDemoContent
-        install: true
-        # Admin User Password (OVERRIDES GLOBAL PASSWORD)
-        #turbo_admin_password: P4ssw0rd!
-        # ---------------------------------------------------------------------
-        # Create Demo User
-        create_user: true
-        # Demo User Name
-        demo_user: demo
-        # Demo User Password (OVERRIDES GLOBAL PASSWORD)
-        #turbo_demo_password: P4ssw0rd!
-        # ---------------------------------------------------------------------
-        # Create Groups
-        group_vcenter_vms: true
-        group_robotshop: true
-        group_licensing: true
-
-        # ---------------------------------------------------------------------
-        # Create Targets
-        target_instana: true
-        # ---------------------------------------------------------------------
-        # Create Memory and CPU hogs
-        resource_hogs: false
-        # ---------------------------------------------------------------------
-        # Create Metrics server, DIF integration and RobotShop BuisnessApp
-        metrics_dif: true
-        # ---------------------------------------------------------------------
-        # Turbo License (optional)
-        turbo_license: NONE
-
-
-
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # IBM AIOPS INSTANA
-      # --------------------------------------------------------------------------------------------------------------------------------------
-
-      - name: ibm-aiops-instana
-        kind: Instana
-        install: true
-        instana_version: 247-0
-        # ---------------------------------------------------------------------
-        # INSTANA LICENSE
-        sales_key: 'NONE'
-        agent_key: 'NONE'
-
-        # ---------------------------------------------------------------------
-        # INSTANA ADMIN LOGIN
-        # Admin User Name
-        instana_admin_user: "admin@instana.local"
-        # Admin User Password (OVERRIDES GLOBAL PASSWORD)
-        #instana_admin_pass: 'P4ssw0rd!'
-        
-        # ---------------------------------------------------------------------
-        # INSTALL INSTANA AGENT
-        install_agent: true
-
-        # --------------------------------------------------------------------------------------------------------------------------------------
-        # INTEGRATIONS
-        integrate_ibm-aiops: true
-        #integrate_turbonomic: true
-        
-        # --------------------------------------------------------------------------------------------------------------------------------------
-        # Storage Classes Override for this Instance (see comment below)
-        # --------------------------------------------------------------------------------------------------------------------------------------
-        #storage_class_file: automatic
-        #storage_class_block: automatic
-
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+  INSTALL_REPO: '{{.Values.ibmaiops.install_repo}}'
 
 
 {{- end }}

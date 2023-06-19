@@ -6,18 +6,13 @@ global:
 
   ## Catalog source image
   ##
-  #imageCatalog: icr.io/cpopen/ibm-operator-catalog:latest
-  imageCatalog: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230614.1603-8b622a1d9
-  
-  #entitled_registry: cp.icr.io
-  entitled_registry: docker-na-public.artifactory.swg-devops.com
+  imageCatalog: icr.io/cpopen/ibm-operator-catalog:latest
 
   ## dockerUsername is the usrname of IBM® Entitled Registry.
   ## It is used to create a docker-registry secret to enable your deployment to pull the AI Manager images 
   ## from the IBM® Entitled Registry.
   ## Default is cp
-  #entitled_registry_user: cp
-  entitled_registry_user: nikh@ch.ibm.com
+  entitled_registry_user: cp
 
   ## Obtain the entitlement key that is assigned to your IBMid. 
   ## Log in to MyIBM Container Software Library: https://myibm.ibm.com/products-services/containerlibrary
@@ -25,7 +20,6 @@ global:
   ## that are associated with the entitled software.
   ## DO NOT Commit your docker password here, but always specify it in UI or CLI when creating the ArgoCD app.
   ## 
-  #entitled_registry_token: password
   entitled_registry_token: password
 
 
@@ -56,7 +50,7 @@ global:
 ibmaiops:
 
   install: false
-  namespace: ibm-aiops
+  namespace: cp4waiops
   # ibm-aiops Size of the install (small: PoC/Demo, tall: Production)
   aiops_size: small
   # Name of the ibm-aiops instance
@@ -73,4 +67,3 @@ ibmaiops:
   #storage_class_file: automatic
   #storage_class_block: automatic
 
-  install_repo: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
