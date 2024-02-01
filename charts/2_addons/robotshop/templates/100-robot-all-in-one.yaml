@@ -11,34 +11,6 @@ spec:
     kind: Service
     name: web
 ---
-# Source: robot-shop/templates/podsecuritypolicy.yaml
-apiVersion: policy/v1beta1
-kind: PodSecurityPolicy
-metadata:
-  name: robot-shop
-  annotations:
-    argocd.argoproj.io/sync-wave: "100"
-spec:
-  allowPrivilegeEscalation: false
-  fsGroup:
-    rule: RunAsAny
-  privileged: false
-  runAsUser:
-    rule: RunAsAny
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    rule: RunAsAny
-  allowedCapabilities:
-  - 'NET_ADMIN'
-  volumes:
-  - configMap
-  - downwardAPI
-  - emptyDir
-  - persistentVolumeClaim
-  - secret
-  - projected
----
 # Source: robot-shop/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
