@@ -648,14 +648,14 @@ spec:
           requests:
             cpu: 100m
             memory: 50Mi
-        readinessProbe:
-          httpGet:
-            path: /_health
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: 30
-          successThreshold: 1
+        # readinessProbe:
+        #   httpGet:
+        #     path: /_health
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+        #   failureThreshold: 30
+        #   successThreshold: 1
         env:
         - name: PDO_URL
           value: mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4
