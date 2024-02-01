@@ -491,7 +491,7 @@ spec:
       
       containers:
       - name: mysql
-        image: robotshop/rs-mysql-db:123
+        image: robotshop/rs-mysql-db:latest
         imagePullPolicy: IfNotPresent
         # added for Istio
         securityContext:
@@ -656,6 +656,10 @@ spec:
           periodSeconds: 5
           failureThreshold: 30
           successThreshold: 1
+        env:
+        - name: PDO_URL
+          value: mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4
+
       restartPolicy: Always
 ---
 # Source: robot-shop/templates/shipping-deployment.yaml
