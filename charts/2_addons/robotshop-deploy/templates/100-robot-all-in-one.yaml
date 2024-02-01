@@ -501,11 +501,11 @@ spec:
         - containerPort: 3306
         resources:
           limits:
-            cpu: 200m
-            memory: 1024Mi
+            cpu: 10m
+            memory: 10Mi
           requests:
-            cpu: 100m
-            memory: 700Mi
+            cpu: 10m
+            memory: 10Mi
       restartPolicy: Always
 ---
 # Source: robot-shop/templates/payment-deployment.yaml
